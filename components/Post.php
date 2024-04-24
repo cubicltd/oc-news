@@ -91,7 +91,7 @@ class Post extends ComponentBase
             foreach (\RainLab\Translate\Models\Locale::listEnabled() as $code => $locale) {
                 if($currentLocale === $code) continue;
 
-                $post->noFallbackLocale()->lang($code);
+                $post->setTranslatableUseFallback(false)->lang($code);
                 if (empty($post->title) || empty($post->slug) ) continue;
 
                 $post->translateContext($code);
@@ -113,7 +113,7 @@ class Post extends ComponentBase
             }
 
             $this->page['post_available_locales'] = $translations;
-            $post->withFallbackLocale()->translateContext($currentLocale);
+            $post->setTranslatableUseFallback(true)->translateContext($currentLocale);
 
             if ($category)
                 $category->translateContext($currentLocale);
